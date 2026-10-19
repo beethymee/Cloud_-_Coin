@@ -1,4 +1,4 @@
-import { handleGeminiChat } from '../server/geminiHandler.ts';
+import { handleGeminiChat } from '../server/geminiHandler';
 
 export default async function handler(req: any, res: any) {
   // Set CORS headers

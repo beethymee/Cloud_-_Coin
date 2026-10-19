@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { handleGeminiChat } from './server/geminiHandler.ts';
+import { handleGeminiChat } from './server/geminiHandler';
 
 dotenv.config();
 

@@ -15,6 +15,8 @@ import {
   Volume2,
   VolumeX,
   Monitor,
+  Compass,
+  Palette,
 } from 'lucide-react';
 import { FinancialHealthScore } from '../types/finance';
 
@@ -25,6 +27,7 @@ interface NavbarProps {
   onResetData: () => void;
   onOpenCompetitionModal: () => void;
   onOpenApkModal: () => void;
+  onOpenThemeSettings: () => void;
   pendingProposalsCount: number;
   soundEnabled?: boolean;
   onToggleSound?: () => void;
@@ -40,13 +43,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCompetitionModal,
   pendingProposalsCount,
   onOpenApkModal,
+  onOpenThemeSettings,
   soundEnabled = true,
   onToggleSound,
   isMobileFrameActive = false,
   onToggleMobileFrame,
 }) => {
   const navTabs = [
-    { id: 'overview', label: 'Overview', icon: Activity },
+    { id: 'welcome', label: 'Welcome', icon: Compass },
+    { id: 'overview', label: 'Dashboard', icon: Activity },
     { id: 'copilot', label: 'AI Copilot', icon: MessageSquare, badge: pendingProposalsCount > 0 ? pendingProposalsCount : null },
     { id: 'budgeting', label: 'Budgets', icon: Layers },
     { id: 'bills', label: 'Bills & Subs', icon: Calendar },
@@ -170,6 +175,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-emerald-400" /> : <VolumeX className="w-3.5 h-3.5" />}
             </button>
           )}
+
+          {/* Theme Settings Button */}
+          <button
+            onClick={onOpenThemeSettings}
+            title="Customize Theme & Scenery Atmosphere"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white border border-white/[0.08] transition cursor-pointer"
+          >
+            <Palette className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="hidden xl:inline">Themes</span>
+          </button>
 
           {/* Mobile Phone Mockup Frame Toggle */}
           {onToggleMobileFrame && (

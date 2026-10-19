@@ -12,6 +12,8 @@ import {
   Plus,
   CreditCard,
   X,
+  Home,
+  Compass,
 } from 'lucide-react';
 
 interface MobileDeviceFrameProps {
@@ -64,8 +66,18 @@ export const MobileDeviceFrame: React.FC<MobileDeviceFrameProps> = ({
           {children}
         </div>
 
-        {/* Mobile Bottom Navigation Dock */}
+        {/* Mobile Bottom Navigation Dock (Matching Reference Image) */}
         <div className="absolute bottom-0 inset-x-0 bg-[#07090E]/95 backdrop-blur-xl border-t border-white/10 px-3 pt-2 pb-5 flex items-center justify-around z-30 select-none">
+          <button
+            onClick={() => setActiveTab('welcome')}
+            className={`flex flex-col items-center gap-1 text-[10px] font-medium transition cursor-pointer ${
+              activeTab === 'welcome' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Compass className="w-4 h-4" />
+            <span>Relax</span>
+          </button>
+
           <button
             onClick={() => setActiveTab('overview')}
             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition cursor-pointer ${
@@ -73,28 +85,17 @@ export const MobileDeviceFrame: React.FC<MobileDeviceFrameProps> = ({
             }`}
           >
             <Activity className="w-4 h-4" />
-            <span>Home</span>
+            <span>Activity</span>
           </button>
 
+          {/* Floating Central Home Action Button (Matching Reference Image) */}
           <button
-            onClick={() => setActiveTab('budgeting')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium transition cursor-pointer ${
-              activeTab === 'budgeting' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-white'
-            }`}
+            onClick={() => setActiveTab('welcome')}
+            className="-mt-5 w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold flex items-center justify-center shadow-lg shadow-emerald-500/30 border-3 border-[#07090E] active:scale-95 transition cursor-pointer"
+            title="Return to Welcoming Home"
           >
-            <Layers className="w-4 h-4" />
-            <span>Budgets</span>
+            <Home className="w-5 h-5 text-slate-950 stroke-[2.5]" />
           </button>
-
-          {/* Floating Action Button */}
-          {onOpenQuickAdd && (
-            <button
-              onClick={onOpenQuickAdd}
-              className="-mt-5 w-11 h-11 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 font-bold flex items-center justify-center shadow-lg shadow-emerald-900/60 border-2 border-[#07090E] active:scale-95 transition cursor-pointer"
-            >
-              <Plus className="w-5 h-5 stroke-[3]" />
-            </button>
-          )}
 
           <button
             onClick={() => setActiveTab('bills')}
@@ -113,7 +114,7 @@ export const MobileDeviceFrame: React.FC<MobileDeviceFrameProps> = ({
             }`}
           >
             <MessageSquare className="w-4 h-4" />
-            <span>AI Copilot</span>
+            <span>CoachChat</span>
           </button>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { DashboardOverview } from './components/DashboardOverview';
 import { ChatAssistant } from './components/ChatAssistant';
@@ -11,6 +11,10 @@ import { CompetitionModal } from './components/CompetitionModal';
 import { ApkInstallModal } from './components/ApkInstallModal';
 import { PublicLandingPage } from './components/PublicLandingPage';
 import { MobileDeviceFrame } from './components/MobileDeviceFrame';
+import { WelcomingPage } from './components/WelcomingPage';
+import { ThemeSettingsModal } from './components/ThemeSettingsModal';
+import { WellbeingCheckInModal } from './components/WellbeingCheckInModal';
+import { UserPreferences } from './types/theme';
 import {
   INITIAL_ACCOUNTS,
   INITIAL_BILLS,
@@ -35,7 +39,7 @@ import { createAuditLog } from './services/securityGuard';
 import { sendChatMessage } from './services/aiService';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<string>('overview');
+  const [activeTab, setActiveTab] = useState<string>('welcome');
   const [accounts, setAccounts] = useState<Account[]>(INITIAL_ACCOUNTS);
   const [transactions, setTransactions] = useState<Transaction[]>(INITIAL_TRANSACTIONS);
   const [budgets, setBudgets] = useState<Budget[]>(INITIAL_BUDGETS);
@@ -46,8 +50,37 @@ export default function App() {
   const [activeProposal, setActiveProposal] = useState<ActionProposal | null>(null);
   const [isCompetitionModalOpen, setIsCompetitionModalOpen] = useState(false);
   const [isApkModalOpen, setIsApkModalOpen] = useState(false);
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+  const [isWellbeingModalOpen, setIsWellbeingModalOpen] = useState(false);
   const [isMobileFrameActive, setIsMobileFrameActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // User theme and personalization preferences
+  const [preferences, setPreferences] = useState<UserPreferences>(() => {
+    try {
+      const saved = localStorage.getItem('fintrack_preferences');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return {
+      theme: 'forest', // Serene Forest theme directly inspired by user's reference image!
+      userName: 'Catherine', // User's name from screenshot
+      greetingStyle: 'serene',
+      timeFormat: '12h',
+      showSceneryAnimation: true,
+    };
+  });
+
+  // Sync theme changes to html data-theme
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', preferences.theme);
+    try {
+      localStorage.setItem('fintrack_preferences', JSON.stringify(preferences));
+    } catch {}
+  }, [preferences]);
+
+  const handleUpdatePreferences = (updates: Partial<UserPreferences>) => {
+    setPreferences((prev) => ({ ...prev, ...updates }));
+  };
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -365,6 +398,7 @@ Try asking:
         onResetData={handleResetData}
         onOpenCompetitionModal={() => setIsCompetitionModalOpen(true)}
         onOpenApkModal={() => setIsApkModalOpen(true)}
+        onOpenThemeSettings={() => setIsThemeModalOpen(true)}
         pendingProposalsCount={pendingProposalsCount}
         isMobileFrameActive={isMobileFrameActive}
         onToggleMobileFrame={() => setIsMobileFrameActive((prev) => !prev)}
@@ -378,6 +412,23 @@ Try asking:
         onToggleMobileFrame={() => setIsMobileFrameActive((prev) => !prev)}
       >
         <main className={`flex-1 ${isMobileFrameActive ? 'p-2' : 'p-4 sm:p-6 lg:p-8'}`}>
+          {activeTab === 'welcome' && (
+            <WelcomingPage
+              accounts={accounts}
+              transactions={transactions}
+              budgets={budgets}
+              bills={bills}
+              healthScore={healthScore}
+              recommendations={recommendations}
+              preferences={preferences}
+              onOpenThemeSettings={() => setIsThemeModalOpen(true)}
+              onOpenWellbeingCheckIn={() => setIsWellbeingModalOpen(true)}
+              onNavigateTab={setActiveTab}
+              onOpenProposal={setActiveProposal}
+              onAskAgent={handleTriggerRecommendation}
+            />
+          )}
+
           {activeTab === 'overview' && (
             <DashboardOverview
               accounts={accounts}
@@ -449,6 +500,23 @@ Try asking:
       <ApkInstallModal
         isOpen={isApkModalOpen}
         onClose={() => setIsApkModalOpen(false)}
+      />
+
+      {/* Theme & Scenery Atmosphere Settings Modal */}
+      <ThemeSettingsModal
+        isOpen={isThemeModalOpen}
+        onClose={() => setIsThemeModalOpen(false)}
+        preferences={preferences}
+        onUpdatePreferences={handleUpdatePreferences}
+      />
+
+      {/* Mindful Financial Wellbeing Check-In Modal */}
+      <WellbeingCheckInModal
+        isOpen={isWellbeingModalOpen}
+        onClose={() => setIsWellbeingModalOpen(false)}
+        userName={preferences.userName}
+        agentName="Agent Aria"
+        onAskAgent={handleTriggerRecommendation}
       />
 
       {/* Footer */}

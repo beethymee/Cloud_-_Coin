@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import { handleGeminiChat } from './server/geminiHandler.ts';
+import { handleGeminiChat } from './server/geminiHandler';
 
 export default defineConfig(() => {
   return {
