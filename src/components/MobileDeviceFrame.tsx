@@ -79,9 +79,11 @@ export const MobileDeviceFrame: React.FC<MobileDeviceFrameProps> = ({
           </button>
 
           <button
-            onClick={() => setActiveTab('overview')}
+            onClick={() => setActiveTab('dashboard')}
             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition cursor-pointer ${
-              activeTab === 'overview' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-white'
+              activeTab === 'dashboard' || activeTab === 'overview'
+                ? 'text-emerald-400 font-bold'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             <Activity className="w-4 h-4" />

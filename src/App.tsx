@@ -11,6 +11,7 @@ import { CompetitionModal } from './components/CompetitionModal';
 import { ApkInstallModal } from './components/ApkInstallModal';
 import { MobileDeviceFrame } from './components/MobileDeviceFrame';
 import { WelcomingPage } from './components/WelcomingPage';
+import { MainWorkspace } from './components/MainWorkspace';
 import { ThemeSettingsModal } from './components/ThemeSettingsModal';
 import { WellbeingCheckInModal } from './components/WellbeingCheckInModal';
 import { UserPreferences } from './types/theme';
@@ -403,17 +404,22 @@ Try asking:
             />
           )}
 
-          {activeTab === 'overview' && (
-            <DashboardOverview
+          {(activeTab === 'dashboard' || activeTab === 'overview') && (
+            <MainWorkspace
               accounts={accounts}
               transactions={transactions}
               budgets={budgets}
               bills={bills}
               healthScore={healthScore}
               recommendations={recommendations}
+              preferences={preferences}
+              onOpenThemeSettings={() => setIsThemeModalOpen(true)}
+              onOpenWellbeingCheckIn={() => setIsWellbeingModalOpen(true)}
+              onNavigateTab={setActiveTab}
+              onOpenProposal={setActiveProposal}
               onTriggerRecommendation={handleTriggerRecommendation}
               onSimulateTransaction={handleSimulateTransaction}
-              onOpenProposal={setActiveProposal}
+              pendingProposalsCount={pendingProposalsCount}
             />
           )}
 

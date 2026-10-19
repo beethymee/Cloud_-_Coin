@@ -1,4 +1,4 @@
-export type ThemeId = 'forest' | 'obsidian' | 'nordic' | 'sunset' | 'amber';
+export type ThemeId = 'bkash' | 'forest' | 'obsidian' | 'nordic' | 'sunset' | 'amber';
 
 export interface ThemeDefinition {
   id: ThemeId;
@@ -20,9 +20,23 @@ export interface UserPreferences {
   greetingStyle: 'serene' | 'professional' | 'minimal';
   timeFormat: '12h' | '24h';
   showSceneryAnimation: boolean;
+  currencySymbol: '৳' | '$';
 }
 
 export const THEMES: ThemeDefinition[] = [
+  {
+    id: 'bkash',
+    name: 'bKash Ruby',
+    tagline: 'Iconic bKash magenta & ultra-clean mobile banking aesthetic',
+    category: 'vibrant',
+    previewColors: {
+      bg: '#D11467',
+      surface: '#FFFFFF',
+      accent: '#E2136E',
+      sceneryOverlay: 'rgba(209, 20, 103, 0.45)',
+    },
+    sceneryFilter: 'hue-rotate(290deg) saturate(1.4) brightness(0.95)',
+  },
   {
     id: 'forest',
     name: 'Serene Forest',

@@ -143,12 +143,12 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
               <span>Time & Scenery Animation</span>
             </label>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-2.5">
               {/* 12h vs 24h */}
               <div className="p-3 rounded-xl bg-black/30 border border-white/10 flex items-center justify-between">
                 <div>
-                  <div className="text-xs font-bold text-white">Time Clock</div>
-                  <div className="text-[11px] text-slate-400">12-hour AM/PM</div>
+                  <div className="text-xs font-bold text-white">Clock</div>
+                  <div className="text-[10px] text-slate-400">12h / 24h</div>
                 </div>
                 <button
                   onClick={() =>
@@ -156,17 +156,35 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                       timeFormat: preferences.timeFormat === '12h' ? '24h' : '12h',
                     })
                   }
-                  className="px-2.5 py-1 rounded-lg text-xs font-bold bg-white/10 hover:bg-white/15 text-white transition cursor-pointer"
+                  className="px-2 py-1 rounded-lg text-xs font-bold bg-white/10 hover:bg-white/15 text-white transition cursor-pointer"
                 >
                   {preferences.timeFormat.toUpperCase()}
+                </button>
+              </div>
+
+              {/* Currency Symbol ৳ vs $ */}
+              <div className="p-3 rounded-xl bg-black/30 border border-white/10 flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-bold text-white">Currency</div>
+                  <div className="text-[10px] text-slate-400">bKash ৳ / $</div>
+                </div>
+                <button
+                  onClick={() =>
+                    onUpdatePreferences({
+                      currencySymbol: preferences.currencySymbol === '৳' ? '$' : '৳',
+                    })
+                  }
+                  className="w-7 h-7 rounded-lg text-xs font-bold bg-[#E2136E]/20 text-[#E2136E] border border-[#E2136E]/40 hover:bg-[#E2136E]/30 transition cursor-pointer flex items-center justify-center font-serif"
+                >
+                  {preferences.currencySymbol || '৳'}
                 </button>
               </div>
 
               {/* Scenery Dynamics */}
               <div className="p-3 rounded-xl bg-black/30 border border-white/10 flex items-center justify-between">
                 <div>
-                  <div className="text-xs font-bold text-white">Scenery Motion</div>
-                  <div className="text-[11px] text-slate-400">Soaring birds & sun pulse</div>
+                  <div className="text-xs font-bold text-white">Motion</div>
+                  <div className="text-[10px] text-slate-400">Effects</div>
                 </div>
                 <button
                   onClick={() =>
@@ -174,7 +192,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                       showSceneryAnimation: !preferences.showSceneryAnimation,
                     })
                   }
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                  className={`px-2 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     preferences.showSceneryAnimation
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                       : 'bg-white/10 text-slate-400'
