@@ -23,7 +23,9 @@ import {
   Coffee,
   Info,
   Smile,
+  RotateCcw,
 } from 'lucide-react';
+import { INSPIRING_QUOTES } from '../data/inspiringQuotes';
 import {
   Account,
   Bill,
@@ -71,6 +73,8 @@ export const WelcomingPage: React.FC<WelcomingPageProps> = ({
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [currentStrengthIndex, setCurrentStrengthIndex] = useState(0);
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const activeQuote = INSPIRING_QUOTES[quoteIndex];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -318,6 +322,39 @@ export const WelcomingPage: React.FC<WelcomingPageProps> = ({
             <span className="text-emerald-400 font-semibold">{activeThemeObj.name}</span>
           </div>
         </div>
+      </div>
+
+      {/* Inspiring Life Quote Card (Replacing Public Web) */}
+      <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-[#102018] to-teal-950/30 border border-white/10 backdrop-blur-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
+        <div className="flex items-start gap-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0 mt-0.5">
+            <Heart className="w-5 h-5 fill-emerald-400/30 text-emerald-400" />
+          </div>
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-400/90 flex items-center gap-1.5">
+              <span>DAILY INSPIRATION TO LIVE BY</span>
+              <span className="text-white/30">·</span>
+              <span className="text-slate-300 font-medium">{activeQuote.tag}</span>
+            </div>
+            <p className="text-sm sm:text-base font-serif italic text-white mt-1 leading-relaxed">
+              “{activeQuote.quote}”
+            </p>
+            <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+              <span>— {activeQuote.author}</span>
+              <span className="text-white/20">·</span>
+              <span className="text-emerald-300/80">Have a peaceful & wonderful day</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setQuoteIndex((prev) => (prev + 1) % INSPIRING_QUOTES.length)}
+          className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-emerald-300 hover:text-white transition shrink-0 cursor-pointer flex items-center gap-1.5 shadow-sm group"
+          title="See another inspiring quote"
+        >
+          <span>Next Quote</span>
+          <RotateCcw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-300" />
+        </button>
       </div>
 
       {/* Main Content Area: Today's Activities & Wellbeing (Matching Reference Screenshot) */}

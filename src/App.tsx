@@ -9,7 +9,6 @@ import { SecurityAuditView } from './components/SecurityAuditView';
 import { ProposalModal } from './components/ProposalModal';
 import { CompetitionModal } from './components/CompetitionModal';
 import { ApkInstallModal } from './components/ApkInstallModal';
-import { PublicLandingPage } from './components/PublicLandingPage';
 import { MobileDeviceFrame } from './components/MobileDeviceFrame';
 import { WelcomingPage } from './components/WelcomingPage';
 import { ThemeSettingsModal } from './components/ThemeSettingsModal';
@@ -362,31 +361,6 @@ Try asking:
     (m) => m.proposal && m.proposal.status === 'PENDING'
   ).length;
 
-  // If public website landing is active
-  if (activeTab === 'landing') {
-    return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
-        <PublicLandingPage
-          onLaunchApp={() => setActiveTab('overview')}
-          onOpenApkModal={() => setIsApkModalOpen(true)}
-          onOpenCompetitionModal={() => setIsCompetitionModalOpen(true)}
-          healthScore={healthScore}
-        />
-
-        {/* Android APK & WebAPK Installation Modal */}
-        <ApkInstallModal
-          isOpen={isApkModalOpen}
-          onClose={() => setIsApkModalOpen(false)}
-        />
-
-        {/* FinTechathon Competition & Architecture Guide Modal */}
-        <CompetitionModal
-          isOpen={isCompetitionModalOpen}
-          onClose={() => setIsCompetitionModalOpen(false)}
-        />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[#07090E] text-slate-100 flex flex-col font-sans selection:bg-emerald-500/30 selection:text-white">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Sparkles,
   RotateCcw,
@@ -9,7 +9,6 @@ import {
   Layers,
   Activity,
   Smartphone,
-  Globe,
   ShieldCheck,
   Zap,
   Volume2,
@@ -17,8 +16,10 @@ import {
   Monitor,
   Compass,
   Palette,
+  Heart,
 } from 'lucide-react';
 import { FinancialHealthScore } from '../types/finance';
+import { INSPIRING_QUOTES } from '../data/inspiringQuotes';
 
 interface NavbarProps {
   activeTab: string;
@@ -49,6 +50,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   isMobileFrameActive = false,
   onToggleMobileFrame,
 }) => {
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const activeQuote = INSPIRING_QUOTES[quoteIndex];
+
   const navTabs = [
     { id: 'welcome', label: 'Welcome', icon: Compass },
     { id: 'overview', label: 'Dashboard', icon: Activity },
@@ -57,7 +61,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'bills', label: 'Bills & Subs', icon: Calendar },
     { id: 'insights', label: 'Analytics', icon: PieChart },
     { id: 'security', label: 'Security & Audit', icon: ShieldCheck },
-    { id: 'landing', label: 'Public Web', icon: Globe },
   ];
 
   const getScoreColor = (score: number) => {
@@ -68,27 +71,35 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#07090E]/90 backdrop-blur-xl">
-      {/* Top Competition Bar */}
+      {/* Top Inspiration & Competition Bar */}
       <div className="border-b border-white/[0.06] bg-gradient-to-r from-emerald-950/40 via-[#0A0E17] to-cyan-950/40 px-4 sm:px-6 py-1.5 text-xs text-slate-300 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[11px] tracking-wide">
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[11px] tracking-wide shrink-0">
             <Zap className="w-3 h-3 text-emerald-400" />
-            <span>FinTechathon 2026</span>
+            <span>FinTrack AI</span>
           </div>
-          <span className="text-slate-400 text-xs hidden md:inline">
-            Topic A: Autonomous Personal Finance Assistant
-          </span>
+
+          {/* Inspiring Living Quote in Header Bar */}
+          <button
+            onClick={() => setQuoteIndex((prev) => (prev + 1) % INSPIRING_QUOTES.length)}
+            title="Click to see another inspiring life quote"
+            className="flex items-center gap-1.5 text-xs text-emerald-200/90 hover:text-white transition cursor-pointer font-serif italic truncate max-w-xs sm:max-w-md lg:max-w-lg group"
+          >
+            <Heart className="w-3 h-3 text-rose-400 fill-rose-400/40 shrink-0 group-hover:scale-110 transition-transform" />
+            <span className="truncate">“{activeQuote.quote}”</span>
+            <span className="text-[10px] text-slate-400 not-italic shrink-0 hidden md:inline">
+              · {activeQuote.author}
+            </span>
+          </button>
         </div>
 
-        <div className="flex items-center gap-3 text-xs">
-          <span className="text-slate-500 font-mono text-[11px]">Sandbox Environment</span>
-          <span className="text-slate-700 hidden sm:inline">·</span>
+        <div className="flex items-center gap-3 text-xs shrink-0">
           <button
             onClick={onOpenCompetitionModal}
-            className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-medium transition cursor-pointer"
+            className="flex items-center gap-1 text-slate-400 hover:text-emerald-300 font-medium transition cursor-pointer text-[11px]"
           >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Rubric (40% Task · 30% Security · 30% Innovation)</span>
+            <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Architecture & Rubric</span>
           </button>
         </div>
       </div>
